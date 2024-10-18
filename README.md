@@ -21,15 +21,16 @@ This Python script automatically posts your loved tracks from Last.fm to your Ma
 
 1. Clone this repository:
 
-   ```bash
-   git clone https://github.com/cfultz/last2mast
-   ```
+```bash
+git clone https://github.com/cfultz/last2mast
+```
 
 2. Create a virtual environment: 
+
 ```bash
-   python3 -m venv .venv
-   source .venv/bin/activate
-   ```
+python3 -m venv .venv
+source .venv/bin/activate
+```
 
 3. Install the required libraries:
 
@@ -49,13 +50,15 @@ Shlink (optional): Get your API key from your Shlink server settings.
 
 Edit the script: Open the last2mast.py file in a text editor. Replace the placeholder API credentials with your actual credentials:
 ```bash
-            LASTFM_API_KEY
-            LASTFM_API_SECRET
-            LASTFM_USERNAME
-            MASTODON_ACCESS_TOKEN
-            MASTODON_API_BASE_URL
-            SHLINK_API_KEY
-            SHLINK_SERVER_URL (include a trailing slash, e.g., https://your-shlink-server.com/)
+LASTFM_API_KEY
+LASTFM_API_SECRET
+LASTFM_USERNAME
+
+MASTODON_ACCESS_TOKEN
+MASTODON_API_BASE_URL
+
+SHLINK_API_KEY
+SHLINK_SERVER_URL (include a trailing slash, e.g., https://your-shlink-server.com/)
 ```
 ## Running the script 
 
@@ -66,6 +69,7 @@ source .venv/bin/activate
 ```
 
 2. Run the script:
+
 ```bash
 python main.py
 ```
