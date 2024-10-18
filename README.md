@@ -80,6 +80,26 @@ nohup python main.py &
 ```
 For continuous operation, consider using a task scheduler (cron, Task Scheduler) or a systemd service (on Linux) to run the script periodically.
 
+## Using the systemd file for Linux operating systems:
+
+```ini
+[Unit]
+Description=Last.fm to Mastodon posting service
+After=network.target
+
+[Service]
+User=your_username  # Replace with your actual username
+WorkingDirectory=/path/to/your/script  # Replace with the actual path
+ExecStart=/path/to/your/virtualenv/bin/python main.py  # Replace with the actual path to your virtualenv's Python
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
+```
+Remember to replace the placeholder values (`your_username`, `/path/to/your/script`, and `/path/to/your/virtualenv/bin/python`) with your actual username, script path, and virtual environment path before using the service file.
+
+
 ## Contributing
 
 Contributions are welcome! Feel free to open issues or submit pull requests.
