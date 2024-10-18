@@ -1,0 +1,13 @@
+[Unit]
+Description=Last.fm to Mastodon posting service
+After=network.target
+
+[Service]
+User=your_username  # Replace with your actual username
+WorkingDirectory=/path/to/your/script  # Replace with the actual path
+ExecStart=/path/to/your/virtualenv/bin/python last2mast.py  # Replace with the actual path to your virtualenv's Python
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
