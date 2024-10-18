@@ -126,37 +126,21 @@ def main():
 
     while True:
         try:
-            # Construct the Last.fm API URL
-            api_url = f"http://ws.audioscrobbler.com/2.0/?method=user.getlovedtracks&user={LASTFM_USERNAME}&api_key={LASTFM_API_KEY}&format=json"
+            loved_tracks = network.get_user(LASTFM_USERNAME).get_loved_tracks(limit=1)
 
-            # Make the API call with a timeout
-            response = requests.get(api_url, timeout=10)
-            response.raise_for_status()
-
-            # Parse the JSON response
-            loved_tracks_data = response.json()
-
-            # Extract the loved tracks
-            loved_tracks = [
-                pylast.Track(
-                    track["name"],
-                    pylast.Artist(track["artist"]["name"], network),
-                    network
-                )
-                for track in loved_tracks_data["lovedtracks"]["track"]
-            ]
-
-        except requests.exceptions.RequestException as e:
+        except pylast.NetworkError as e:
             print(f"Error fetching loved tracks: {e}")
             loved_tracks = None
 
-        if loved_tracks and loved_tracks[0] != last_loved_track:
-            post_loved_track(loved_tracks[0])
-            last_loved_track = loved_tracks[0]
+        # Access the track title correctly
+        if loved_tracks and loved_tracks[0].track.title != last_loved_track:  
+            post_loved_track(loved_tracks[0].track)  # Pass the Track object
+            last_loved_track = loved_tracks[0].track.title  # Store the track title
 
         if datetime.today().weekday() == 4:  # Friday is 4
             post_weekly_top_artists_and_tracks()
-            posted_weekly_update = False
+        
+        posted_weekly_update = False
 
         time.sleep(300)
 
