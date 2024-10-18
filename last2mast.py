@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 import time
 import re
 import requests
+import logging
 
 # Last.fm API credentials - REPLACE THESE WITH YOUR CREDENTIALS
 LASTFM_API_KEY = "YOUR_LASTFM_API_KEY"  
@@ -29,9 +30,12 @@ mastodon_client = mastodon.Mastodon(
     access_token=MASTODON_ACCESS_TOKEN,
     api_base_url=MASTODON_API_BASE_URL
 )
+# Main Code
 
+start_time = time.time()
 posted_track_titles = set()  # Store titles of posted tracks
 posted_weekly_update = False  # Flag to track if the weekly update has been posted
+logging.basicConfig(filename='lastfm-to-mastodon.log', level=logging.INFO)
 
 def post_loved_track(track):
     """Posts the loved track to Mastodon, avoiding duplicates."""
@@ -135,7 +139,7 @@ def post_weekly_top_artists_and_tracks():
 
 def main():
     last_loved_track = None
-
+    logging.info(f"[{datetime.now()}] Checking for new loved tracks...")
     while True:
         loved_tracks = network.get_user(LASTFM_USERNAME).get_loved_tracks(limit=1)
 
@@ -147,7 +151,12 @@ def main():
             post_weekly_top_artists_and_tracks()
             posted_weekly_update = False  # Reset the flag every Friday
 
-        time.sleep(300)
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    sleep_time = 300 - elapsed_time  # Adjust sleep time
+        
+    if sleep_time > 0:
+       time.sleep(sleep_time)
 
 if __name__ == "__main__":
     main()
