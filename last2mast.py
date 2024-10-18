@@ -96,18 +96,18 @@ def post_weekly_top_artists_and_tracks():
     today = datetime.now()
     last_week = today - timedelta(days=7)
 
+    # Get top artists (corrected)
     top_artists = network.get_user(LASTFM_USERNAME).get_top_artists(
         period='7day',
         limit=5,
-        start=last_week.strftime('%s'),
-        end=today.strftime('%s')
+        # Removed start and end arguments
     )
 
+    # Get top tracks (corrected)
     top_tracks = network.get_user(LASTFM_USERNAME).get_top_tracks(
         period='7day',
         limit=5,
-        start=last_week.strftime('%s'),
-        end=today.strftime('%s')
+        # Removed start and end arguments
     )
 
     lastfm_profile = f"https://www.last.fm/user/{LASTFM_USERNAME}"
