@@ -31,6 +31,7 @@ mastodon_client = mastodon.Mastodon(
 )
 
 posted_track_titles = set()  # Store titles of posted tracks
+posted_weekly_update = False  # Flag to track if the weekly update has been posted
 
 def post_loved_track(track):
     """Posts the loved track to Mastodon, avoiding duplicates."""
@@ -92,9 +93,11 @@ def post_loved_track(track):
 
 
 def post_weekly_top_artists_and_tracks():
-    """Posts the weekly top artists and tracks to Mastodon."""
-    today = datetime.now()
-    last_week = today - timedelta(days=7)
+    """Posts the weekly top artists and tracks to Mastodon, only once per Friday."""
+    global posted_weekly_update  # Access the global flag
+
+    if posted_weekly_update:  # Check if already posted this Friday
+        return
 
     # Get top artists (corrected)
     top_artists = network.get_user(LASTFM_USERNAME).get_top_artists(
@@ -127,6 +130,8 @@ def post_weekly_top_artists_and_tracks():
 
     mastodon_client.status_post(message)
 
+    posted_weekly_update = True  # Set the flag after posting
+
 
 def main():
     last_loved_track = None
@@ -140,6 +145,7 @@ def main():
 
         if datetime.today().weekday() == 4:  # Friday is 4
             post_weekly_top_artists_and_tracks()
+            posted_weekly_update = False  # Reset the flag every Friday
 
         time.sleep(300)
 
