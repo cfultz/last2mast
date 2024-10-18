@@ -1,13 +1,12 @@
 # Last.fm to Mastodon
 
-This Python script automatically posts your loved tracks from Last.fm to your Mastodon profile. It also posts a weekly update of your top artists and tracks every Friday.
+This Python script automatically posts your loved tracks from Last.fm to your Mastodon profile.
 
 ## Features
 
 - Posts newly loved tracks from Last.fm to Mastodon.
 - Shortens track URLs using your Shlink server.
 - Adds relevant hashtags to posts (artist, album, genre).
-- Posts a weekly summary of top artists and tracks every Friday.
 - Prevents duplicate posts by checking track titles.
 
 ## Requirements
