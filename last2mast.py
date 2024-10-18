@@ -141,7 +141,7 @@ def main():
     last_loved_track = None
     logging.info(f"[{datetime.now()}] Checking for new loved tracks...")
     while True:
-        loved_tracks = network.get_user(LASTFM_USERNAME).get_loved_tracks(limit=1)
+        loved_tracks = network.get_user(LASTFM_USERNAME).get_loved_tracks(limit=1, timeout=10)
 
         if loved_tracks and loved_tracks[0] != last_loved_track:
             post_loved_track(loved_tracks[0])
@@ -151,12 +151,12 @@ def main():
             post_weekly_top_artists_and_tracks()
             posted_weekly_update = False  # Reset the flag every Friday
 
-    end_time = time.time()
-    elapsed_time = end_time - start_time
-    sleep_time = 300 - elapsed_time  # Adjust sleep time
+        end_time = time.time()
+        elapsed_time = end_time - start_time
+        sleep_time = 300 - elapsed_time  # Adjust sleep time
         
-    if sleep_time > 0:
-       time.sleep(sleep_time)
+        if sleep_time > 0:
+          time.sleep(sleep_time)
 
 if __name__ == "__main__":
     main()
